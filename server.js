@@ -14,16 +14,7 @@ let port = 8080;
 let protocol = 'http';
 let options = {};
 
-const chime = new AWS.Chime({ region: 'us-east-1' });
-const alternateEndpoint = process.env.ENDPOINT;
-if (alternateEndpoint) {
-  console.log('Using endpoint: ' + alternateEndpoint);
-  chime.createMeeting({ ClientRequestToken: uuid() }, () => {});
-  AWS.NodeHttpClient.sslAgent.options.rejectUnauthorized = false;
-  chime.endpoint = new AWS.Endpoint(alternateEndpoint);
-} else {
-  chime.endpoint = new AWS.Endpoint('https://service.chime.aws.amazon.com/console');
-}
+const chime = new AWS.ChimeSDKMeetings({ region: 'us-east-1' });
 
 const meetingCache = {};
 const attendeeCache = {};
@@ -46,6 +37,8 @@ const server = require(protocol).createServer(options, async (request, response)
         meetingCache[title] = await chime
           .createMeeting({
             ClientRequestToken: uuid(),
+            ExternalMeetingId: uuid(),
+            MediaRegion: "us-east-1",
             // NotificationsConfiguration: {
             //   SqsQueueArn: 'Paste your arn here',
             //   SnsTopicArn: 'Paste your arn here'
@@ -94,6 +87,8 @@ const server = require(protocol).createServer(options, async (request, response)
         meetingCache[title] = await chime
           .createMeeting({
             ClientRequestToken: uuid(),
+            ExternalMeetingId: uuid(),
+            MediaRegion: "us-east-1",
             // NotificationsConfiguration: {
             //   SqsQueueArn: 'Paste your arn here',
             //   SnsTopicArn: 'Paste your arn here'
