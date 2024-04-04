@@ -9,6 +9,7 @@ import AudioInputControl from './AudioInputControl';
 import VideoInputControl from './VideoInputControl';
 import AudioOutputControl from './AudioOutputControl';
 import EndMeetingControl from './EndMeetingControl';
+import ScreenShareControl from "./ScreenShareControl"
 
 const MeetingControlsContainer: React.FC = () => {
   const meetingManager = useMeetingManager();
@@ -24,6 +25,7 @@ const MeetingControlsContainer: React.FC = () => {
       <VideoInputControl />
       <AudioOutputControl />
       <EndMeetingControl />
+      <ScreenShareControl />
     </div>
   );
 }

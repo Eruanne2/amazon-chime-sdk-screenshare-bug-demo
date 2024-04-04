@@ -53,8 +53,8 @@ const RemoteVideoGrid: React.FC = () => {
       return;
     }
     const videoTileDidUpdate = (tileState: VideoTileState) => {
-      const { boundAttendeeId, localTile, isContent, tileId } = tileState;
-      if (!boundAttendeeId || localTile || isContent || !tileId) {
+      const { boundAttendeeId, localTile, tileId } = tileState;
+      if (!boundAttendeeId || localTile || !tileId) {
         return;
       }
       const index = acquireTileIndex(tileId);
@@ -64,7 +64,7 @@ const RemoteVideoGrid: React.FC = () => {
         [index]: { boundAttendeeId: boundAttendeeId },
       }));
     };
-    
+
     const videoTileWasRemoved = (tileId: number) => {
       const index = releaseTileIndex(tileId);
       setVisibleIndices((previousVisibleIndices) => ({
@@ -74,7 +74,7 @@ const RemoteVideoGrid: React.FC = () => {
     };
     const observers = { videoTileDidUpdate, videoTileWasRemoved };
     audioVideo.addObserver(observers);
-    
+
     return () => {
       audioVideo.removeObserver(observers);
     };
